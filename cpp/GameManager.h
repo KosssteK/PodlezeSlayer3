@@ -7,6 +7,7 @@
 
 class GameManager {
 
+	sf::RenderWindow window;
 	EventsHandler eventsHandler;
 	Camera playerCamera;
 	MapManager mapManager;
@@ -14,8 +15,9 @@ class GameManager {
 
 public:
 	GameManager();
-	void init(sf::RenderWindow &window);
-	void update(sf::RenderWindow &window);
-	void draw(sf::RenderWindow &window);
+	void init();
+	void update();
+	void draw();
 
+	bool isWindowOpen();
 };

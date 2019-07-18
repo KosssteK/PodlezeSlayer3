@@ -5,7 +5,6 @@
 
 Camera::Camera()
 {
-	float side = 60;
 	setView(sf::Vector2f(0, 0), sf::Vector2f(
 		(float)Properties::getSingleton().getViewSize() * (float)Properties::getSingleton().getScreenRatio(),
 		(float)Properties::getSingleton().getViewSize()

@@ -5,21 +5,13 @@
 
 int main()
 {
-	sf::RenderWindow window(
-		sf::VideoMode(
-			Properties::getSingleton().getWindowResolution().x,
-			Properties::getSingleton().getWindowResolution().y
-		),
-		Properties::getSingleton().getGameName()
-	);
 	GameManager gameManager;
 	
-	gameManager.init(window);
-	window.setFramerateLimit(Properties::getSingleton().getFrameRate());
-	while (window.isOpen())
+	gameManager.init();
+	while (gameManager.isWindowOpen())
 	{
-		gameManager.update(window);
-		gameManager.draw(window);
+		gameManager.update();
+		gameManager.draw();
 	}
 
 	return 0;
