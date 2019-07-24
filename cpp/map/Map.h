@@ -13,5 +13,6 @@ public:
 	~Map();
 
 	void draw(sf::RenderWindow &window);
+	sf::Color getPixelColor(sf::Vector2f playerPosition);
 };
 

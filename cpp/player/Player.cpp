@@ -38,6 +38,6 @@ void Player::getPlayerTexture(sf::Texture & texture, const char * mapName)
 		std::cout << "Error" << std::endl;
 	}
 	else {
-		std::cout << "Success" << std::endl;
+		std::cout << "Texture: " << mapName << " loaded successfully" << std::endl;
 	}
 }
