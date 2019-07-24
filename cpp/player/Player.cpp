@@ -20,6 +20,17 @@ void Player::draw(sf::RenderWindow & window)
 	window.draw(sprite);
 }
 
+void Player::updatePosition(sf::Vector2f direction)
+{
+	sf::Vector2f previousPosition = sprite.getPosition();
+	sprite.setPosition(previousPosition.x + direction.x * speed, previousPosition.y + direction.y * speed);
+}
+
+sf::Vector2f Player::getPlayerPosition()
+{
+	return sprite.getPosition();
+}
+
 void Player::getPlayerTexture(sf::Texture & texture, const char * mapName)
 {
 	if (!texture.loadFromFile(mapName))

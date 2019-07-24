@@ -5,9 +5,14 @@ class MapManager
 {
 	Map gameMap;
 
-public:
 	MapManager();
-	~MapManager();
+	MapManager(const MapManager &);
+public:
+	static MapManager & getSingleton()
+	{
+		static MapManager singleton;
+		return singleton;
+	}
 
 	void init(sf::RenderWindow &window);
 	void update(sf::RenderWindow &window);

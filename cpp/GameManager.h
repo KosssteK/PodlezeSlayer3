@@ -9,9 +9,6 @@ class GameManager {
 
 	sf::RenderWindow window;
 	EventsHandler eventsHandler;
-	Camera playerCamera;
-	MapManager mapManager;
-	PlayerManager playerManager;
 
 public:
 	GameManager();

@@ -6,11 +6,6 @@ MapManager::MapManager()
 {
 }
 
-
-MapManager::~MapManager()
-{
-}
-
 void MapManager::init(sf::RenderWindow & window)
 {
 }

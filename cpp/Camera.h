@@ -4,9 +4,15 @@
 class Camera
 {
 	sf::View view;
-public:
+
 	Camera();
-	~Camera();
+	Camera(const Camera &);
+public:
+	static Camera & getSingleton()
+	{
+		static Camera singleton;
+		return singleton;
+	}
 
 	void init(sf::RenderWindow &window);
 	void update(sf::RenderWindow &window);

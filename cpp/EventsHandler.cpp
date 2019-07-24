@@ -1,5 +1,6 @@
 #include "EventsHandler.h"
 #include <iostream>
+#include "player/PlayerManager.h"
 
 EventsHandler::EventsHandler()
 {
@@ -31,9 +32,24 @@ void EventsHandler::draw(sf::RenderWindow & window)
 
 void EventsHandler::handleKeyboardEvents(sf::Event & event)
 {
-	if (event.key.code == sf::Keyboard::A)
+	if (event.type == sf::Event::KeyPressed)
 	{
-		std::cout << "keyboard: " << event.key.code << std::endl;
+		if (event.key.code == sf::Keyboard::A)
+		{
+			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(-1.0, 0.0));
+		}
+		if (event.key.code == sf::Keyboard::D)
+		{
+			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(1.0, 0.0));
+		}
+		if (event.key.code == sf::Keyboard::W)
+		{
+			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, -1.0));
+		}
+		if (event.key.code == sf::Keyboard::S)
+		{
+			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, 1.0));
+		}
 	}
 }
 
