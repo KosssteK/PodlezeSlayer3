@@ -39,10 +39,12 @@ void EventsHandler::handleKeyboardEvents(sf::Event & event)
 
 void EventsHandler::handleMouseEvents(sf::Event & event)
 {
-	if (event.type == sf::Event::MouseMoved) {
+	if (event.type == sf::Event::MouseMoved) 
+	{
 		std::cout << "moved" << std::endl;
 	}
-	if (event.type == sf::Event::MouseButtonPressed) {
+	if (event.type == sf::Event::MouseButtonPressed) 
+	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
 			std::cout << "mouseButton: " << event.key.code << std::endl;
