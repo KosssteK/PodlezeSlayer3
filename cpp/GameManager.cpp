@@ -14,6 +14,7 @@ void GameManager::init()
 {
 	window.setFramerateLimit(Properties::getSingleton().getFrameRate());
 	eventsHandler.init(window);
+	NetworkManager::getSingleton().init(window);
 	
 	Camera::getSingleton().init(window);
 	MapManager::getSingleton().init(window);
@@ -23,6 +24,7 @@ void GameManager::init()
 void GameManager::update()
 {
 	eventsHandler.update(window);
+	NetworkManager::getSingleton().update(window);
 	
 	PlayerManager::getSingleton().update(window);
 	Camera::getSingleton().update(window);
@@ -33,6 +35,7 @@ void GameManager::draw()
 {
 	window.clear();
 	eventsHandler.draw(window);
+	NetworkManager::getSingleton().draw(window);
 	
 	Camera::getSingleton().draw(window);
 	MapManager::getSingleton().draw(window);

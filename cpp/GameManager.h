@@ -4,6 +4,7 @@
 #include "map/MapManager.h"
 #include "player/PlayerManager.h"
 #include "Camera.h"
+#include "NetworkManager.h"
 
 class GameManager {
 
