@@ -29,3 +29,7 @@ sf::Vector2f PlayerManager::getPlayerPosition()
 {
 	return player.getPlayerPosition();
 }
+
+void PlayerManager::disableMovement() {
+	player.disableMovement();
+}

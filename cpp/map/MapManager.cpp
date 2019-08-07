@@ -16,7 +16,11 @@ void MapManager::update(sf::RenderWindow & window)
 	sf::Vector2f playerPosition = PlayerManager::getSingleton().getPlayerPosition();
 	pixelColor = gameMap.getPixelColor(playerPosition);
 
-	std::cout << "Pixel color: " << pixelColor.r << ", " << pixelColor.g << std::endl;
+	if (pixelColor == sf::Color::Black) {
+		PlayerManager::getSingleton().disableMovement();
+		std::cout << "Pixel color: " << (int)pixelColor.r << ", " << (int)pixelColor.g << std::endl;
+	}
+
 }
 
 void MapManager::draw(sf::RenderWindow & window)

@@ -15,5 +15,6 @@ public:
 	void draw(sf::RenderWindow & window);
 	void updatePosition(sf::Vector2f direction);
 	sf::Vector2f getPlayerPosition();
+	void disableMovement();
 };
 

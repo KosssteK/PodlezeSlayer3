@@ -36,7 +36,7 @@ void EventsHandler::handleKeyboardEvents(sf::Event & event)
 	{
 		if (event.key.code == sf::Keyboard::A)
 		{
-			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(-1.0, 0.0));
+			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(-1.0, 0.0)); 
 		}
 		if (event.key.code == sf::Keyboard::D)
 		{
@@ -50,6 +50,10 @@ void EventsHandler::handleKeyboardEvents(sf::Event & event)
 		{
 			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, 1.0));
 		}
+	}
+
+	if (event.type == sf::Event::KeyReleased) {
+
 	}
 }
 

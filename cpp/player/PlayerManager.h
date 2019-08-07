@@ -23,5 +23,6 @@ public:
 
 	void updatePlayerPosition(sf::Vector2f direction);
 	sf::Vector2f getPlayerPosition();
+	void disableMovement();
 };
 

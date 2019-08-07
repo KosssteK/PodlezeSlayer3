@@ -31,6 +31,11 @@ sf::Vector2f Player::getPlayerPosition()
 	return sprite.getPosition();
 }
 
+void Player::disableMovement()
+{
+	speed = 0;
+}
+
 void Player::getPlayerTexture(sf::Texture & texture, const char * mapName)
 {
 	if (!texture.loadFromFile(mapName))
