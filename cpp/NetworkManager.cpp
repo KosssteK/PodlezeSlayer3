@@ -1,4 +1,5 @@
 #include "NetworkManager.h"
+#include "player/PlayerManager.h"
 #include <iostream>
 #include <string>
 
@@ -37,6 +38,10 @@ void NetworkManager::init(sf::RenderWindow & window)
 			"No available peers for initiating an ENet connection.\n");
 		exit(EXIT_FAILURE);
 	}
+	connectID = peer->connectID;
+	std::cout << connectID << std::endl;
+
+
 	if (enet_host_service(client, &event, 5000) > 0 &&
 		event.type == ENET_EVENT_TYPE_CONNECT)
 	{
@@ -52,31 +57,25 @@ void NetworkManager::init(sf::RenderWindow & window)
 
 void NetworkManager::update(sf::RenderWindow & window)
 {
-	//std::string tekst;
-	//std::getline(std::cin, tekst);
-	////const char* msg = "data: " + (char*)tekst;
-	//ENetPacket * packet = enet_packet_create(tekst.c_str(),
-	//	strlen(tekst.c_str()) + 1,
-	//	ENET_PACKET_FLAG_RELIABLE);
-	//enet_peer_send(peer, 0, packet);
-	//enet_host_flush(client);
-
-
-	if (enet_host_service(client, &event, 10) >= 0)
+	if (enet_host_service(client, &event, 30) >= 0)
 	{
 		//printf("A new client connected from %x:%u.\n");
 		switch (event.type)
 		{
 		case ENET_EVENT_TYPE_RECEIVE:
-			//std::cout << "A packet of length " << event.packet->dataLength <<
-			//	" containing " << event.packet->data <<
-			//	" was received from " << *((int*)event.peer->data) <<
-			//	" on channel " << event.channelID <<
-			//	"." << std::endl;
-			std::cout << "recived " << event.packet->data << std::endl;
+			recivedData = reinterpret_cast<char*>(event.packet->data);
+			std::cout << " <---->  Recived " << recivedData << std::endl;
+			if (recivedData[0] == 'N') {
+				recivedData.erase(0, 2);
+				registerNewPlayer(recivedData);
+			}
+			if (recivedData[0] == 'U') {
+				recivedData.erase(0, 2);
+				updateGameState(recivedData);
+			}
+			recivedData.clear();
 			/* Clean up the packet now that we're done using it. */
 			enet_packet_destroy(event.packet);
-
 			break;
 
 		}
@@ -86,3 +85,55 @@ void NetworkManager::update(sf::RenderWindow & window)
 void NetworkManager::draw(sf::RenderWindow & window)
 {
 }
+
+void NetworkManager::registerNewPlayer(std::string& data)
+{
+	int playerCount = getNextElement(data);
+	for (int i = 0; i < playerCount; i++) {
+
+		int currentID = getNextElement(data);
+		if (connectID != currentID) {
+			PlayerManager::getSingleton().registerNewPlayer(currentID);
+		}
+		else {
+			std::cout << "----->> the same player!" << std::endl;
+		}
+	}
+}
+
+void NetworkManager::updateGameState(std::string data) 
+{
+	unsigned long enemyID = getNextElement(data);
+	if (enemyID != connectID) {
+		int directionX = (int)getNextElement(data);
+		int directionY = (int)getNextElement(data);
+		sf::Vector2f enemyPosition(directionX, directionY);
+
+		PlayerManager::getSingleton().getEnemy(enemyID).updatePosition(enemyPosition);
+	}
+	
+}
+
+void NetworkManager::sendUpdatedData(sf::Vector2f playerPosition)
+{
+	std::string packetData;
+
+	packetData += "U:" + std::to_string(connectID) + ":" + std::to_string(playerPosition.x) + ":" + std::to_string(playerPosition.y);
+
+	ENetPacket * packet = enet_packet_create(packetData.c_str(),
+		strlen(packetData.c_str()) + 1,
+		ENET_PACKET_FLAG_RELIABLE);
+	enet_peer_send(peer, 0, packet);
+	enet_host_flush(client);
+}
+
+unsigned long NetworkManager::getNextElement(std::string & data)
+{
+	int semicolonIndex = data.find(":");
+	std::string cutString = data.substr(0, semicolonIndex);
+	unsigned long finalValue = std::stoul(cutString);
+	data.erase(0, data.find(":") + 1);
+	return finalValue;
+}
+
+

@@ -1,18 +1,28 @@
 #include "Player.h"
 #include <iostream>
+#include "../ResourceManager.h"
 
 
 Player::Player()
 {
-	getPlayerTexture(texture, "images/players/player.png");
-	sprite.setTexture(texture);
+	sprite.setTexture(ResourceManager::getSingleton().getPlayerTexture());
 	sprite.setOrigin(5, 5);
 	sprite.setPosition(10,10);
+
+	playerID = 0;
 }
 
 
 Player::~Player()
 {
+}
+
+Player::Player(unsigned long ID)
+{
+	sprite.setTexture(ResourceManager::getSingleton().getEnemyTexture());
+	sprite.setOrigin(5, 5);
+	sprite.setPosition(10, 10);
+	playerID = ID;
 }
 
 void Player::draw(sf::RenderWindow & window)
@@ -36,13 +46,7 @@ void Player::disableMovement()
 	speed = 0;
 }
 
-void Player::getPlayerTexture(sf::Texture & texture, const char * mapName)
+unsigned long Player::getID()
 {
-	if (!texture.loadFromFile(mapName))
-	{
-		std::cout << "Error" << std::endl;
-	}
-	else {
-		std::cout << "Texture: " << mapName << " loaded successfully" << std::endl;
-	}
+	return playerID;
 }

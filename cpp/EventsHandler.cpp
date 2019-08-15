@@ -1,6 +1,7 @@
 #include "EventsHandler.h"
 #include <iostream>
 #include "player/PlayerManager.h"
+#include "NetworkManager.h"
 
 EventsHandler::EventsHandler()
 {
@@ -37,18 +38,22 @@ void EventsHandler::handleKeyboardEvents(sf::Event & event)
 		if (event.key.code == sf::Keyboard::A)
 		{
 			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(-1.0, 0.0)); 
+			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(-1.0, 0.0));
 		}
 		if (event.key.code == sf::Keyboard::D)
 		{
 			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(1.0, 0.0));
+			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(1.0, 0.0));
 		}
 		if (event.key.code == sf::Keyboard::W)
 		{
 			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, -1.0));
+			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0, -1.0));
 		}
 		if (event.key.code == sf::Keyboard::S)
 		{
 			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, 1.0));
+			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0, 1.0));
 		}
 	}
 
@@ -61,7 +66,7 @@ void EventsHandler::handleMouseEvents(sf::Event & event)
 {
 	if (event.type == sf::Event::MouseMoved) 
 	{
-		std::cout << "moved" << std::endl;
+		//std::cout << "moved" << std::endl;
 	}
 	if (event.type == sf::Event::MouseButtonPressed) 
 	{
