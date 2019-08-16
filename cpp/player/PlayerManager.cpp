@@ -24,18 +24,28 @@ void PlayerManager::draw(sf::RenderWindow & window)
 	}
 }
 
-void PlayerManager::registerNewPlayer(unsigned long newPlayerData)
+void PlayerManager::registerNewPlayer(unsigned long newPlayerData, int inOrder)
 {
 	if (!isAlreadyCreated(newPlayerData)) {
 		std::cout << "----->> New player created!" << std::endl;
-		Player newPlayer(newPlayerData);
+		Player newPlayer(newPlayerData, inOrder);
 		enemies.push_back(newPlayer);
 	}
+}
+
+void PlayerManager::setPlayerPosition(sf::Vector2f position)
+{
+	player.setPosition(position);
 }
 
 void PlayerManager::setPlayerRotation(float angle)
 {
 	player.setRotation(angle);
+}
+
+float PlayerManager::getPlayerRotation()
+{
+	return player.getRotation();
 }
 
 Player PlayerManager::getPlayer()

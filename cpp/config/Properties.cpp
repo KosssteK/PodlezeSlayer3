@@ -35,15 +35,28 @@ float Properties::getViewSize()
 
 int Properties::getConnectTime()
 {
-	return 1;
+	return 100;
 }
 
 std::string Properties::getPlayerTextureName()
 {
-	return "images/players/player2.png";
+	return "images/players/player3.png";
 }
 
 std::string Properties::getEnemyTextureName()
 {
-	return "images/players/enemy.png";
+	return "images/players/enemy3.png";
 }
+
+float Properties::getStartingPosition(int inOrder, int coordinate)
+{
+	int positions[4][2] = {
+		   10,10,
+		   10,243,
+		   243,10,
+		   243,243
+	};
+	return positions[inOrder][coordinate];
+}
+
+

@@ -69,20 +69,23 @@ void EventsHandler::handleMouseEvents(sf::Event & event, sf::RenderWindow & wind
 		sf::Vector2f playersPosition = PlayerManager::getSingleton().getPlayerPosition();
 		float PI = 3.14;
 		PlayerManager::getSingleton().setPlayerRotation(atan2(worldPos.y - playersPosition.y, worldPos.x - playersPosition.x) * 180 / PI);
+		//NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0f,0.0f), PlayerManager::getSingleton().getPlayerRotation());
 	}
 	if (event.type == sf::Event::MouseButtonPressed) 
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
 			std::cout << "mouseButton: " << event.key.code << std::endl;
+			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0f, 0.0f), PlayerManager::getSingleton().getPlayerRotation());
 		}
 	}
 }
 
 void EventsHandler::proceedPlayerMovement(sf::Vector2f vector)
 {
+
 	if (!MapManager::getSingleton().willColide(vector, PlayerManager::getSingleton().getPlayer())) {
 		PlayerManager::getSingleton().updatePlayerPosition(vector);
-		NetworkManager::getSingleton().sendUpdatedData(vector);
+		NetworkManager::getSingleton().sendUpdatedData(vector, PlayerManager::getSingleton().getPlayerRotation());
 	}
 }

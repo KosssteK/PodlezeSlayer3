@@ -26,4 +26,5 @@ public:
 
 	std::string getPlayerTextureName();
 	std::string getEnemyTextureName();
+	float getStartingPosition(int inOrder, int coordinate);
 };

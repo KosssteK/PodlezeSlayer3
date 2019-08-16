@@ -22,9 +22,12 @@ public:
 	void update(sf::RenderWindow &window);
 	void draw(sf::RenderWindow &window);
 
-	void registerNewPlayer(unsigned long newPlayerData);
+	void registerNewPlayer(unsigned long newPlayerData, int inOrder);
 
+	void setPlayerPosition(sf::Vector2f position);
 	void setPlayerRotation(float angle);
+	float getPlayerRotation();
+
 	Player getPlayer();
 	void updatePlayerPosition(sf::Vector2f direction);
 	sf::Vector2f getPlayerPosition();

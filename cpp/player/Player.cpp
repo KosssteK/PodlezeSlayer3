@@ -1,14 +1,15 @@
 #include "Player.h"
 #include <iostream>
 #include "../ResourceManager.h"
+#include "../config/Properties.h"
 
 
 Player::Player()
 {
 	sprite.setTexture(ResourceManager::getSingleton().getPlayerTexture());
-	sprite.setOrigin(4,4);
-	sprite.setPosition(10,10);
-
+	sprite.setOrigin(128 / 2, 128 / 2);
+	sprite.setPosition(Properties::getSingleton().getStartingPosition(0, 0), Properties::getSingleton().getStartingPosition(0, 1));
+	sprite.setScale(0.05, 0.05);
 	playerID = 0;
 }
 
@@ -17,22 +18,23 @@ Player::~Player()
 {
 }
 
-Player::Player(unsigned long ID)
+Player::Player(unsigned long ID, int inOrder)
 {
 	sprite.setTexture(ResourceManager::getSingleton().getEnemyTexture());
-	sprite.setOrigin(5, 5);
-	sprite.setPosition(10, 10);
+	sprite.setOrigin(128 / 2, 128 / 2);
+	sprite.setPosition(Properties::getSingleton().getStartingPosition(inOrder, 0), Properties::getSingleton().getStartingPosition(inOrder, 1));
+	sprite.setScale(0.05, 0.05);
 	playerID = ID;
 }
 
 float Player::getWidth()
 {
-	return 5.0f;
+	return ceil(128.0f * sprite.getScale().x);
 }
 
 float Player::getHeight()
 {
-	return 5.0f;
+	return ceil(128.0f * sprite.getScale().y);
 }
 
 void Player::draw(sf::RenderWindow & window)
@@ -40,9 +42,19 @@ void Player::draw(sf::RenderWindow & window)
 	window.draw(sprite);
 }
 
+void Player::setPosition(sf::Vector2f position)
+{
+	sprite.setPosition(position);
+}
+
 void Player::setRotation(float angle)
 {
 	sprite.setRotation(angle);
+}
+
+float Player::getRotation()
+{
+	return sprite.getRotation();
 }
 
 void Player::updatePosition(sf::Vector2f direction)

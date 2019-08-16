@@ -11,14 +11,17 @@ class Player
 public:
 	Player();
 	~Player();
-	Player(unsigned long ID);
+	Player(unsigned long ID, int inOrder);
 
 	float getWidth();
 	float getHeight();
 
 	void draw(sf::RenderWindow & window);
 	
+	void setPosition(sf::Vector2f position);
 	void setRotation(float angle);
+	float getRotation();
+
 	void updatePosition(sf::Vector2f direction);
 	sf::Vector2f getPlayerPosition();
 	void disableMovement();

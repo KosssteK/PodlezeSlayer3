@@ -4,7 +4,7 @@
 
 Map::Map()
 {
-	getMapTexture(texture, "images/gameMap1.png");
+	getMapTexture(texture, "images/gameMap2.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(0, 0);
 }
@@ -23,8 +23,8 @@ sf::Color Map::getPixelColor(Player player, sf::Vector2f vector)
 {
 	sf::Image imgMap = texture.copyToImage();
 	return imgMap.getPixel(
-		player.getPlayerPosition().x + (vector.x *ceil(player.getWidth() / 2)),
-		player.getPlayerPosition().y + (vector.y *ceil(player.getHeight() / 2))
+		player.getPlayerPosition().x + (vector.x *player.getWidth() / 2),
+		player.getPlayerPosition().y + (vector.y *player.getHeight() / 2) 
 	);
 }
 

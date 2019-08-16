@@ -25,7 +25,7 @@ public:
 
 	void registerNewPlayer(std::string& data);
 	void updateGameState(std::string data);
-	void sendUpdatedData(sf::Vector2f playerPosition);
+	void sendUpdatedData(sf::Vector2f playerPosition, float rotation);
 
 
 private:

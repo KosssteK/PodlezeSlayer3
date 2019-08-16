@@ -65,7 +65,7 @@ void NetworkManager::update(sf::RenderWindow & window)
 		{
 		case ENET_EVENT_TYPE_RECEIVE:
 			recivedData = reinterpret_cast<char*>(event.packet->data);
-			std::cout << " <---->  Recived " << recivedData << std::endl;
+			//std::cout << " <---->  Recived " << recivedData << std::endl;
 			if (recivedData[0] == 'N') {
 				recivedData.erase(0, 2);
 				registerNewPlayer(recivedData);
@@ -94,9 +94,10 @@ void NetworkManager::registerNewPlayer(std::string& data)
 
 		int currentID = getNextElement(data);
 		if (connectID != currentID) {
-			PlayerManager::getSingleton().registerNewPlayer(currentID);
+			PlayerManager::getSingleton().registerNewPlayer(currentID, i);
 		}
 		else {
+			PlayerManager::getSingleton().setPlayerPosition(sf::Vector2f(Properties::getSingleton().getStartingPosition(i, 0), Properties::getSingleton().getStartingPosition(i, 1)));
 			std::cout << "----->> the same player!" << std::endl;
 		}
 	}
@@ -111,15 +112,17 @@ void NetworkManager::updateGameState(std::string data)
 		sf::Vector2f enemyPosition(directionX, directionY);
 
 		PlayerManager::getSingleton().getEnemy(enemyID).updatePosition(enemyPosition);
+		float rotation = (int)getNextElement(data);
+		PlayerManager::getSingleton().getEnemy(enemyID).setRotation(rotation);
 	}
 	
 }
 
-void NetworkManager::sendUpdatedData(sf::Vector2f playerPosition)
+void NetworkManager::sendUpdatedData(sf::Vector2f vetor, float rotation)
 {
 	std::string packetData;
 
-	packetData += "U:" + std::to_string(connectID) + ":" + std::to_string(playerPosition.x) + ":" + std::to_string(playerPosition.y);
+	packetData += "U:" + std::to_string(connectID) + ":" + std::to_string(vetor.x) + ":" + std::to_string(vetor.y) + ":" + std::to_string(rotation);
 
 	ENetPacket * packet = enet_packet_create(packetData.c_str(),
 		strlen(packetData.c_str()) + 1,

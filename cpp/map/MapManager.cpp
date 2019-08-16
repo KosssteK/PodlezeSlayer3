@@ -23,12 +23,12 @@ void MapManager::draw(sf::RenderWindow & window)
 bool MapManager::willColide(sf::Vector2f vector, Player player)
 {
 	bool willColide = false;
+
 	sf::Color pixelColor;
 	pixelColor = gameMap.getPixelColor(player, vector);
-
 	if (pixelColor == sf::Color::Black) {
 		willColide = true;
-		std::cout << "Pixel color: " << (int)pixelColor.r << ", " << (int)pixelColor.g << std::endl;
 	}
+
 	return willColide;
 }
