@@ -32,3 +32,18 @@ float Properties::getViewSize()
 {
 	return 60.0f;
 }
+
+int Properties::getConnectTime()
+{
+	return 1;
+}
+
+std::string Properties::getPlayerTextureName()
+{
+	return "images/players/player2.png";
+}
+
+std::string Properties::getEnemyTextureName()
+{
+	return "images/players/enemy.png";
+}

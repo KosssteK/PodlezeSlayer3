@@ -1,5 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "../player/Player.h"
 
 
 class Map
@@ -13,6 +14,6 @@ public:
 	~Map();
 
 	void draw(sf::RenderWindow &window);
-	sf::Color getPixelColor(sf::Vector2f playerPosition);
+	sf::Color getPixelColor(Player player, sf::Vector2f vector);
 };
 

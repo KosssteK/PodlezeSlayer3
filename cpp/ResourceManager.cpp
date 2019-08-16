@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
 #include <iostream>
+#include "config/Properties.h"
 
 
 ResourceManager::ResourceManager()
@@ -8,20 +9,20 @@ ResourceManager::ResourceManager()
 }
 
 void ResourceManager::loadAllTextures() {
-	if (!playerTexture.loadFromFile("images/players/player.png"))
+	if (!playerTexture.loadFromFile(Properties::getSingleton().getPlayerTextureName()))
 	{
 		std::cout << "Error" << std::endl;
 	}
 	else {
-		std::cout << "Texture: " << "images/players/player.png" << " loaded successfully" << std::endl;
+		std::cout << "Texture: " << Properties::getSingleton().getPlayerTextureName() << " loaded successfully" << std::endl;
 	}
 
-	if (!enemyTexture.loadFromFile("images/players/enemy.png"))
+	if (!enemyTexture.loadFromFile(Properties::getSingleton().getEnemyTextureName()))
 	{
 		std::cout << "Error" << std::endl;
 	}
 	else {
-		std::cout << "Texture: " << "images/players/enemy.png" << " loaded successfully" << std::endl;
+		std::cout << "Texture: " << Properties::getSingleton().getEnemyTextureName() << " loaded successfully" << std::endl;
 	}
 }
 

@@ -8,7 +8,6 @@ private:
 	sf::Vector2i windowResolution;
 	const char * gameName;
 
-
 	Properties();
 	Properties(const Properties &);
 public:
@@ -23,4 +22,8 @@ public:
 	int getFrameRate();
 	float getScreenRatio();
 	float getViewSize();
+	int getConnectTime();
+
+	std::string getPlayerTextureName();
+	std::string getEnemyTextureName();
 };

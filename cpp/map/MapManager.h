@@ -1,5 +1,6 @@
 #pragma once
 #include "Map.h"
+#include "../player/Player.h"
 
 class MapManager
 {
@@ -17,5 +18,7 @@ public:
 	void init(sf::RenderWindow &window);
 	void update(sf::RenderWindow &window);
 	void draw(sf::RenderWindow &window);
+
+	bool willColide(sf::Vector2f vector, Player player);
 };
 

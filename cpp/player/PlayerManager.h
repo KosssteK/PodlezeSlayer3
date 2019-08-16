@@ -24,10 +24,13 @@ public:
 
 	void registerNewPlayer(unsigned long newPlayerData);
 
+	void setPlayerRotation(float angle);
+	Player getPlayer();
 	void updatePlayerPosition(sf::Vector2f direction);
 	sf::Vector2f getPlayerPosition();
 	void disableMovement();
 
+	bool isAlreadyCreated(unsigned long enemyID);
 	Player& getEnemy(unsigned long enemyID);
 };
 

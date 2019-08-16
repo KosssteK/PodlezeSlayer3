@@ -2,6 +2,7 @@
 #include <iostream>
 #include "player/PlayerManager.h"
 #include "NetworkManager.h"
+#include "map/MapManager.h"
 
 EventsHandler::EventsHandler()
 {
@@ -21,7 +22,7 @@ void EventsHandler::update(sf::RenderWindow & window)
 		}
 		
 		handleKeyboardEvents(event);
-		handleMouseEvents(event);
+		handleMouseEvents(event, window);
 	}
 }
 
@@ -33,27 +34,25 @@ void EventsHandler::draw(sf::RenderWindow & window)
 
 void EventsHandler::handleKeyboardEvents(sf::Event & event)
 {
+
+	sf::Vector2f vector(0.0, 0.0);
 	if (event.type == sf::Event::KeyPressed)
 	{
 		if (event.key.code == sf::Keyboard::A)
 		{
-			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(-1.0, 0.0)); 
-			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(-1.0, 0.0));
+			proceedPlayerMovement(sf::Vector2f(-1.0, 0.0));
 		}
 		if (event.key.code == sf::Keyboard::D)
 		{
-			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(1.0, 0.0));
-			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(1.0, 0.0));
+			proceedPlayerMovement(sf::Vector2f(1.0, 0.0));
 		}
 		if (event.key.code == sf::Keyboard::W)
 		{
-			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, -1.0));
-			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0, -1.0));
+			proceedPlayerMovement(sf::Vector2f(0.0, -1.0));
 		}
 		if (event.key.code == sf::Keyboard::S)
 		{
-			PlayerManager::getSingleton().updatePlayerPosition(sf::Vector2f(0.0, 1.0));
-			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0, 1.0));
+			proceedPlayerMovement(sf::Vector2f(0.0, 1.0));
 		}
 	}
 
@@ -62,11 +61,14 @@ void EventsHandler::handleKeyboardEvents(sf::Event & event)
 	}
 }
 
-void EventsHandler::handleMouseEvents(sf::Event & event)
+void EventsHandler::handleMouseEvents(sf::Event & event, sf::RenderWindow & window)
 {
 	if (event.type == sf::Event::MouseMoved) 
 	{
-		//std::cout << "moved" << std::endl;
+		sf::Vector2f worldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+		sf::Vector2f playersPosition = PlayerManager::getSingleton().getPlayerPosition();
+		float PI = 3.14;
+		PlayerManager::getSingleton().setPlayerRotation(atan2(worldPos.y - playersPosition.y, worldPos.x - playersPosition.x) * 180 / PI);
 	}
 	if (event.type == sf::Event::MouseButtonPressed) 
 	{
@@ -74,5 +76,13 @@ void EventsHandler::handleMouseEvents(sf::Event & event)
 		{
 			std::cout << "mouseButton: " << event.key.code << std::endl;
 		}
+	}
+}
+
+void EventsHandler::proceedPlayerMovement(sf::Vector2f vector)
+{
+	if (!MapManager::getSingleton().willColide(vector, PlayerManager::getSingleton().getPlayer())) {
+		PlayerManager::getSingleton().updatePlayerPosition(vector);
+		NetworkManager::getSingleton().sendUpdatedData(vector);
 	}
 }

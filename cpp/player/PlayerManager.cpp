@@ -26,10 +26,21 @@ void PlayerManager::draw(sf::RenderWindow & window)
 
 void PlayerManager::registerNewPlayer(unsigned long newPlayerData)
 {
-	std::cout << "----->> New player created!" << std::endl;
-	//std::cout << newPlayerData << std::endl;
-	Player newPlayer(newPlayerData);
-	enemies.push_back(newPlayer);
+	if (!isAlreadyCreated(newPlayerData)) {
+		std::cout << "----->> New player created!" << std::endl;
+		Player newPlayer(newPlayerData);
+		enemies.push_back(newPlayer);
+	}
+}
+
+void PlayerManager::setPlayerRotation(float angle)
+{
+	player.setRotation(angle);
+}
+
+Player PlayerManager::getPlayer()
+{
+	return player;
 }
 
 void PlayerManager::updatePlayerPosition(sf::Vector2f direction)
@@ -44,6 +55,18 @@ sf::Vector2f PlayerManager::getPlayerPosition()
 
 void PlayerManager::disableMovement() {
 	player.disableMovement();
+}
+
+bool PlayerManager::isAlreadyCreated(unsigned long enemyID)
+{
+	int enemyIndex = -1;
+	for (int i = 0; i < enemies.size(); i++) {
+		if (enemies[i].getID() == enemyID) {
+			enemyIndex = i;
+			break;
+		}
+	}
+	return enemyIndex >= 0;
 }
 
 Player& PlayerManager::getEnemy(unsigned long enemyID)

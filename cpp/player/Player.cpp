@@ -6,7 +6,7 @@
 Player::Player()
 {
 	sprite.setTexture(ResourceManager::getSingleton().getPlayerTexture());
-	sprite.setOrigin(5, 5);
+	sprite.setOrigin(4,4);
 	sprite.setPosition(10,10);
 
 	playerID = 0;
@@ -25,9 +25,24 @@ Player::Player(unsigned long ID)
 	playerID = ID;
 }
 
+float Player::getWidth()
+{
+	return 5.0f;
+}
+
+float Player::getHeight()
+{
+	return 5.0f;
+}
+
 void Player::draw(sf::RenderWindow & window)
 {
 	window.draw(sprite);
+}
+
+void Player::setRotation(float angle)
+{
+	sprite.setRotation(angle);
 }
 
 void Player::updatePosition(sf::Vector2f direction)

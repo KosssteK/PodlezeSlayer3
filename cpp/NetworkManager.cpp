@@ -2,6 +2,7 @@
 #include "player/PlayerManager.h"
 #include <iostream>
 #include <string>
+#include "config/Properties.h"
 
 
 NetworkManager::NetworkManager()
@@ -42,7 +43,7 @@ void NetworkManager::init(sf::RenderWindow & window)
 	std::cout << connectID << std::endl;
 
 
-	if (enet_host_service(client, &event, 5000) > 0 &&
+	if (enet_host_service(client, &event, Properties::getSingleton().getConnectTime()) > 0 &&
 		event.type == ENET_EVENT_TYPE_CONNECT)
 	{
 		puts("Connection to some.server.net:1234 succeeded.");

@@ -10,5 +10,7 @@ public:
 	void draw(sf::RenderWindow &window);
 
 	void handleKeyboardEvents(sf::Event & event);
-	void handleMouseEvents(sf::Event & event);
+	void handleMouseEvents(sf::Event & event, sf::RenderWindow & window);
+
+	void proceedPlayerMovement(sf::Vector2f vector);
 };

@@ -1,11 +1,12 @@
 #include "Map.h"
 #include <iostream>
+#include <math.h>
 
 Map::Map()
 {
 	getMapTexture(texture, "images/gameMap1.png");
 	sprite.setTexture(texture);
-	sprite.setPosition(0,0);
+	sprite.setPosition(0, 0);
 }
 
 
@@ -18,10 +19,13 @@ void Map::draw(sf::RenderWindow &window)
 	window.draw(sprite);
 }
 
-sf::Color Map::getPixelColor(sf::Vector2f playerPosition)
+sf::Color Map::getPixelColor(Player player, sf::Vector2f vector)
 {
 	sf::Image imgMap = texture.copyToImage();
-	return imgMap.getPixel(playerPosition.x, playerPosition.y);
+	return imgMap.getPixel(
+		player.getPlayerPosition().x + (vector.x *ceil(player.getWidth() / 2)),
+		player.getPlayerPosition().y + (vector.y *ceil(player.getHeight() / 2))
+	);
 }
 
 void Map::getMapTexture(sf::Texture &texture, const char * mapName)
