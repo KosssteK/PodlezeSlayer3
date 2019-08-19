@@ -29,8 +29,8 @@ void NetworkManager::init(sf::RenderWindow & window)
 		exit(EXIT_FAILURE);
 	}
 
-	enet_address_set_host(&address, "localhost");
-	address.port = 1234;
+	enet_address_set_host(&address, Properties::getSingleton().getServerIP());
+	address.port = Properties::getSingleton().getServerPort();
 
 	peer = enet_host_connect(client, &address, 2, 0);
 	if (peer == NULL)
@@ -58,7 +58,7 @@ void NetworkManager::init(sf::RenderWindow & window)
 
 void NetworkManager::update(sf::RenderWindow & window)
 {
-	if (enet_host_service(client, &event, 30) >= 0)
+	if (enet_host_service(client, &event, 20) >= 0)
 	{
 		//printf("A new client connected from %x:%u.\n");
 		switch (event.type)
