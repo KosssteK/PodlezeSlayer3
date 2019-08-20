@@ -33,6 +33,11 @@ public:
 	sf::Vector2f getPlayerPosition();
 	void disableMovement();
 
+	void checkHitCollision(sf::Vector2f mousePosition);
+	bool hitOccured(Player enemy, sf::Vector2f mousePosition);
+	void eraseEnemy(unsigned long enemyID);
+
+	int getEnemyIndex(unsigned long enemyID);
 	bool isAlreadyCreated(unsigned long enemyID);
 	Player& getEnemy(unsigned long enemyID);
 };

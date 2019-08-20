@@ -75,8 +75,9 @@ void EventsHandler::handleMouseEvents(sf::Event & event, sf::RenderWindow & wind
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
+			sf::Vector2f worldPos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 			std::cout << "mouseButton: " << event.key.code << std::endl;
-			NetworkManager::getSingleton().sendUpdatedData(sf::Vector2f(0.0f, 0.0f), PlayerManager::getSingleton().getPlayerRotation());
+			PlayerManager::getSingleton().checkHitCollision(worldPos);
 		}
 	}
 }
@@ -86,6 +87,6 @@ void EventsHandler::proceedPlayerMovement(sf::Vector2f vector)
 
 	if (!MapManager::getSingleton().willColide(vector, PlayerManager::getSingleton().getPlayer())) {
 		PlayerManager::getSingleton().updatePlayerPosition(vector);
-		NetworkManager::getSingleton().sendUpdatedData(vector, PlayerManager::getSingleton().getPlayerRotation());
+		NetworkManager::getSingleton().sendUpdatedData(vector, PlayerManager::getSingleton().getPlayerRotation(), 0);
 	}
 }

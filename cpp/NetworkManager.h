@@ -23,11 +23,15 @@ public:
 	void update(sf::RenderWindow &window);
 	void draw(sf::RenderWindow &window);
 
+	void disconnect();
+
 	void registerNewPlayer(std::string& data);
 	void updateGameState(std::string data);
-	void sendUpdatedData(sf::Vector2f playerPosition, float rotation);
+	void sendUpdatedData(sf::Vector2f playerPosition, float rotation, unsigned long enemyID);
 
+	unsigned long getPlayerID();
 
 private:
 	unsigned long getNextElement(std::string& data);
+	std::string getNextStringElement(std::string& data);
 };

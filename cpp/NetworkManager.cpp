@@ -87,6 +87,11 @@ void NetworkManager::draw(sf::RenderWindow & window)
 {
 }
 
+void NetworkManager::disconnect()
+{
+	enet_peer_disconnect(peer, 0);
+}
+
 void NetworkManager::registerNewPlayer(std::string& data)
 {
 	int playerCount = getNextElement(data);
@@ -105,30 +110,46 @@ void NetworkManager::registerNewPlayer(std::string& data)
 
 void NetworkManager::updateGameState(std::string data) 
 {
+	std::cout << data << std::endl;
+
 	unsigned long enemyID = getNextElement(data);
 	if (enemyID != connectID) {
 		int directionX = (int)getNextElement(data);
 		int directionY = (int)getNextElement(data);
+
+
 		sf::Vector2f enemyPosition(directionX, directionY);
 
 		PlayerManager::getSingleton().getEnemy(enemyID).updatePosition(enemyPosition);
 		float rotation = (int)getNextElement(data);
 		PlayerManager::getSingleton().getEnemy(enemyID).setRotation(rotation);
+
+		unsigned long killedEnemyID = getNextElement(data);
+		if (killedEnemyID != 0) {
+			PlayerManager::getSingleton().eraseEnemy(killedEnemyID);
+		};
 	}
 	
 }
 
-void NetworkManager::sendUpdatedData(sf::Vector2f vetor, float rotation)
+void NetworkManager::sendUpdatedData(sf::Vector2f vetor, float rotation, unsigned long enemyID)
 {
 	std::string packetData;
 
-	packetData += "U:" + std::to_string(connectID) + ":" + std::to_string(vetor.x) + ":" + std::to_string(vetor.y) + ":" + std::to_string(rotation);
+	packetData += "U:" + std::to_string(connectID) + ":" + std::to_string(vetor.x) + ":" + std::to_string(vetor.y) + ":" + std::to_string((int)rotation);
+
+	packetData += enemyID != 0 ? ":"+ std::to_string(enemyID) : ":0";
 
 	ENetPacket * packet = enet_packet_create(packetData.c_str(),
 		strlen(packetData.c_str()) + 1,
 		ENET_PACKET_FLAG_RELIABLE);
 	enet_peer_send(peer, 0, packet);
 	enet_host_flush(client);
+}
+
+unsigned long NetworkManager::getPlayerID()
+{
+	return connectID;
 }
 
 unsigned long NetworkManager::getNextElement(std::string & data)
@@ -138,6 +159,14 @@ unsigned long NetworkManager::getNextElement(std::string & data)
 	unsigned long finalValue = std::stoul(cutString);
 	data.erase(0, data.find(":") + 1);
 	return finalValue;
+}
+
+std::string NetworkManager::getNextStringElement(std::string & data)
+{
+	int semicolonIndex = data.find(":");
+	std::string cutString = data.substr(0, semicolonIndex);
+	data.erase(0, data.find(":") + 1);
+	return cutString;
 }
 
 
