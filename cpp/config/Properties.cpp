@@ -6,7 +6,7 @@
 Properties::Properties()
 {
 	gameName = "Podleze Slayer 4";
-	serverIP = "localhost";
+	serverIP = "192.168.0.45";
 	std::string line;
 	std::ifstream settingsFile("settings.txt");
 	if (settingsFile.is_open())
